@@ -1,0 +1,10 @@
+{
+  "name": "jsprimer",
+  "version": "1.0.0",
+  "description": "jsprimer task management application",
+  "author": "hibriiiiidge",
+  "main": "main.js",
+  "scripts": {
+    "start": "npx @js-primer/local-server"
+  }
+}
