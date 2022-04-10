@@ -1,29 +1,47 @@
+ async function main() {
+  try {
+    const userId = getUserId();
+    const userInfo = await fetchUserInfo(userId);
+    const view = createView(userInfo);
+    displayView(view)
+  } catch (error) {
+    console.error(`エラーが発生しました (${error})`);
+  }
+}
+
 function fetchUserInfo(userId) {
   fetch(`https://api.github.com/users/${encodeURIComponent(userId)}`)
       .then(response => {
           console.log(response.status);
           // エラーレスポンスが返されたことを検知する
           if (!response.ok) {
-              console.error("エラーレスポンス", response);
+            return Promise.reject(new Error(`${response.status}: ${response.statusText}`))
           } else {
-              return response.json().then(userInfo => {
-                const view = escapeHTML`
-                <h4>${userInfo.name} (@${userInfo.login})<h4>
-                <img src="${userInfo.avatar_url} alt="${userInfo.login}" height="100px">
-                <dl>
-                  <dt>Location</dt>
-                  <dt>${userInfo.location}</dt>
-                  <dt>Repositories</dt>
-                  <dt>${userInfo.public_repos}</dt>
-                </dl>
-                `;
-                const result = document.getElementById("result");
-                result.innerHTML = view;
-              });
+            return response.json();
           }
-      }).catch(error => {
-          console.error(error);
       });
+}
+
+function getUserId() {
+  return document.getElementById("userId").value;
+}
+
+function createView(userInfo) {
+  const view = escapeHTML`
+  <h4>${userInfo.name} (@${userInfo.login})<h4>
+  <img src="${userInfo.avatar_url} alt="${userInfo.login}" height="100px">
+  <dl>
+    <dt>Location</dt>
+    <dt>${userInfo.location}</dt>
+    <dt>Repositories</dt>
+    <dt>${userInfo.public_repos}</dt>
+  </dl>
+  `;
+}
+
+function displayView(view) {
+  const result = document.getElementById("result");
+  result.innerHTML = view;
 }
 
 function escapeSpecialChars(str) {
