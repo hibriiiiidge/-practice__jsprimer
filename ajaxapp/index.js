@@ -3,23 +3,23 @@
     const userId = getUserId();
     const userInfo = await fetchUserInfo(userId);
     const view = createView(userInfo);
-    displayView(view)
+    displayView(view);
   } catch (error) {
     console.error(`エラーが発生しました (${error})`);
   }
 }
 
 function fetchUserInfo(userId) {
-  fetch(`https://api.github.com/users/${encodeURIComponent(userId)}`)
-      .then(response => {
-          console.log(response.status);
-          // エラーレスポンスが返されたことを検知する
-          if (!response.ok) {
-            return Promise.reject(new Error(`${response.status}: ${response.statusText}`))
-          } else {
-            return response.json();
-          }
-      });
+  return fetch(`https://api.github.com/users/${encodeURIComponent(userId)}`)
+          .then(response => {
+              console.log(response.status);
+              // エラーレスポンスが返されたことを検知する
+              if (!response.ok) {
+                return Promise.reject(new Error(`${response.status}: ${response.statusText}`))
+              } else {
+                return response.json();
+              }
+          });
 }
 
 function getUserId() {
@@ -27,7 +27,7 @@ function getUserId() {
 }
 
 function createView(userInfo) {
-  const view = escapeHTML`
+  return escapeHTML`
   <h4>${userInfo.name} (@${userInfo.login})<h4>
   <img src="${userInfo.avatar_url} alt="${userInfo.login}" height="100px">
   <dl>
@@ -50,7 +50,7 @@ function escapeSpecialChars(str) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;")
+    .replace(/'/g, "&#039;");
 }
 
 function escapeHTML(strings, ...values) {
