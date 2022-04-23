@@ -5,10 +5,14 @@
   "author": "hibriiiiidge",
   "main": "main.js",
   "scripts": {
-    "start": "npx @js-primer/local-server"
+    "start": "npx @js-primer/local-server",
+    "test": "mocha test/"
   },
   "dependencies": {
     "commander": "^5.0.0",
     "marked": "^4.0.10"
+  },
+  "devDependencies": {
+    "mocha": "^7.2.0"
   }
 }
