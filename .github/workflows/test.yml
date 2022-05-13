@@ -1,0 +1,13 @@
+name: Test
+
+on:
+  pull_request:
+    types: [ opened, unassigned ]
+
+jobs:
+  assign:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 1
+
+    steps:
+      - run: ls -la
